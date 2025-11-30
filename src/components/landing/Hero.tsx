@@ -50,7 +50,7 @@ export function Hero() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={handleGuestAccess}
-                        className="px-8 py-4 bg-primary text-black rounded-full font-bold text-lg flex items-center gap-2 shadow-[0_0_20px_rgba(0,255,157,0.3)] hover:shadow-[0_0_30px_rgba(0,255,157,0.5)] transition-all"
+                        className="px-8 py-4 bg-primary text-black rounded-full font-bold text-lg flex items-center gap-2 shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all"
                     >
                         Try as Guest <ArrowRight className="w-5 h-5" />
                     </motion.button>

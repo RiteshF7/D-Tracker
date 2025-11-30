@@ -15,14 +15,14 @@ const plans = [
         name: "Pro",
         price: "$9",
         features: ["Unlimited History", "Advanced Reports", "Goal Setting", "Priority Support"],
-        color: "from-[#00ff9d] to-[#00d2ff]",
+        color: "from-[#a855f7] to-[#d946ef]",
         popular: true
     },
     {
         name: "Elite",
         price: "$19",
         features: ["AI Insights", "Coach Access", "Custom Metrics", "API Access"],
-        color: "from-[#ff0055] to-[#ff5500]"
+        color: "from-[#d946ef] to-[#ec4899]"
     }
 ];
 

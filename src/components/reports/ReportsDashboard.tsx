@@ -25,7 +25,7 @@ export function ReportsDashboard() {
     }, []);
 
     const metrics = [
-        { id: "weight", label: "Avg Weight", value: "75.2 kg", color: "#00ff9d", gradient: ["#00ff9d", "#00cc7d"] },
+        { id: "weight", label: "Avg Weight", value: "75.2 kg", color: "#a855f7", gradient: ["#a855f7", "#7c3aed"] },
         { id: "steps", label: "Avg Steps", value: "10,245", color: "#00d2ff", gradient: ["#00d2ff", "#00aaff"] },
         { id: "calories", label: "Avg Calories", value: "2,400", color: "#ff0055", gradient: ["#ff0055", "#cc0044"] },
         { id: "sleep", label: "Avg Sleep", value: "7.2 hrs", color: "#eab308", gradient: ["#eab308", "#c29200"] },

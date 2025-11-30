@@ -42,7 +42,7 @@ export function GlowMonitor() {
         setTaskStats(stats);
     }, []);
 
-    const [selectedColor, setSelectedColor] = useState<string>("green");
+    const [selectedColor, setSelectedColor] = useState<string>("purple");
 
     const THEMES: Record<string, { hex: string; rgb: string }> = {
         green: { hex: "#00ff9d", rgb: "0, 255, 157" },

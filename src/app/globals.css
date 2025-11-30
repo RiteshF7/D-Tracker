@@ -7,10 +7,10 @@
     --color-card-foreground: #ffffff;
     --color-popover: #0a0a0a;
     --color-popover-foreground: #ffffff;
-    --color-primary: #00ff9d;
-    --color-primary-foreground: #000000;
-    --color-secondary: #00d2ff;
-    --color-secondary-foreground: #000000;
+    --color-primary: #a855f7;
+    --color-primary-foreground: #ffffff;
+    --color-secondary: #d946ef;
+    --color-secondary-foreground: #ffffff;
     --color-muted: #1a1a1a;
     --color-muted-foreground: #888888;
     --color-accent: #1a1a1a;
@@ -19,7 +19,7 @@
     --color-destructive-foreground: #ffffff;
     --color-border: #1f1f1f;
     --color-input: #1f1f1f;
-    --color-ring: #00ff9d;
+    --color-ring: #a855f7;
 }
 
 @layer base {
@@ -27,8 +27,8 @@
         background-color: var(--color-background);
         color: var(--color-foreground);
         background-image:
-            radial-gradient(circle at 50% 0%, rgba(0, 255, 157, 0.05) 0%, transparent 50%),
-            radial-gradient(circle at 100% 0%, rgba(0, 210, 255, 0.05) 0%, transparent 50%);
+            radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 100% 0%, rgba(217, 70, 239, 0.1) 0%, transparent 50%);
         background-attachment: fixed;
     }
 }
@@ -48,11 +48,11 @@
     }
 
     .glow-primary {
-        box-shadow: 0 0 20px -5px #00ff9d;
+        box-shadow: 0 0 20px -5px #a855f7;
     }
 
     .glow-secondary {
-        box-shadow: 0 0 20px -5px #00d2ff;
+        box-shadow: 0 0 20px -5px #d946ef;
     }
 
     .glow-text {

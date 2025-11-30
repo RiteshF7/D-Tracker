@@ -8,7 +8,7 @@ const features = [
         icon: CheckCircle2,
         title: "Daily Tasks",
         description: "Stay organized with a simple, intuitive daily checklist.",
-        color: "#00ff9d"
+        color: "#a855f7"
     },
     {
         icon: Activity,
