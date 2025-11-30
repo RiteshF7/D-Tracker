@@ -4,14 +4,25 @@ import { motion } from "framer-motion";
 import { ArrowRight, Lock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { seedGuestData } from "@/lib/seedData";
+import { useAuth } from "@/context/AuthContext";
 
 export function Hero() {
     const router = useRouter();
+
+    const { signInWithGoogle, user } = useAuth();
 
     const handleGuestAccess = () => {
         seedGuestData();
         router.push("/daily-tasks");
     };
+
+    const handleLogin = async () => {
+        await signInWithGoogle();
+    };
+
+    if (user) {
+        router.push("/daily-tasks");
+    }
 
     return (
         <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
@@ -47,7 +58,8 @@ export function Hero() {
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-8 py-4 glass rounded-full font-bold text-lg flex items-center gap-2 hover:bg-white/10 transition-all text-muted-foreground cursor-not-allowed"
+                        onClick={handleLogin}
+                        className="px-8 py-4 glass rounded-full font-bold text-lg flex items-center gap-2 hover:bg-white/10 transition-all text-white"
                     >
                         Login <Lock className="w-4 h-4" />
                     </motion.button>

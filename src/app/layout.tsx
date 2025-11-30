@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import { cn } from "@/lib/utils";
+import { AuthContextProvider } from "@/context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.className, "bg-background text-foreground min-h-screen")}>
-        {children}
+        <AuthContextProvider>
+          {children}
+        </AuthContextProvider>
       </body>
     </html>
   );
