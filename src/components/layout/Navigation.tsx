@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CheckCircle2, Activity, BarChart2, LineChart, Settings } from "lucide-react";
+import { CheckCircle2, Activity, BarChart2, LineChart, Settings, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
@@ -30,6 +30,12 @@ const navItems = [
         href: "/reports",
         icon: LineChart,
         color: "text-[#eab308]",
+    },
+    {
+        name: "Journal",
+        href: "/journal",
+        icon: BookOpen,
+        color: "text-[#8b5cf6]",
     },
     {
         name: "Manage",
