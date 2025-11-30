@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# D Tracker PWA
+
+D Tracker is a daily activity based fitness tracker for athletes. It is a Progressive Web App (PWA) built with Next.js.
+
+## Features
+
+- **Daily Tasks**: Track daily tasks with simple tick/cross actions.
+- **F Tracker**: Log daily fitness metrics (Weight, Steps, Calories, Sleep).
+- **Monitor**: Visualize consistency with glowing blocks and time period filtering.
+- **Reports**: View charts and graphs of your fitness data.
+- **Manager**: Manage tasks and set fitness goals.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js (LTS version)
+- npm
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  Install dependencies:
+    ```bash
+    npm install
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Running Locally
 
-## Learn More
+1.  Start the development server:
+    ```bash
+    npm run dev
+    ```
+2.  Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+### Building for Production
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1.  Build the application:
+    ```bash
+    npm run build
+    ```
+2.  Start the production server:
+    ```bash
+    npm start
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## PWA
 
-## Deploy on Vercel
+This application is configured as a PWA. You can install it on your mobile device or desktop.
+- **Mobile**: Open in Chrome/Safari and select "Add to Home Screen".
+- **Desktop**: Click the install icon in the address bar (Chrome/Edge).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Framework**: Next.js 14+ (App Router)
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Charts**: Recharts
+- **PWA**: next-pwa
