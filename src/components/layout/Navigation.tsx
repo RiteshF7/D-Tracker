@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CheckCircle2, Activity, BarChart2, LineChart, Settings, BookOpen, LogOut } from "lucide-react";
+import { CheckCircle2, Activity, BarChart2, LineChart, Settings, BookOpen, User as UserIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
@@ -46,23 +46,15 @@ const navItems = [
         color: "text-[#ffffff]",
     },
     {
-        name: "Logout",
-        href: "#logout",
-        icon: LogOut,
-        color: "text-red-500",
-        isAction: true,
+        name: "Profile",
+        href: "/profile",
+        icon: UserIcon,
+        color: "text-blue-400",
     },
 ];
 
 export function Navigation() {
     const pathname = usePathname();
-    const router = useRouter();
-    const { logout } = useAuth();
-
-    const handleLogout = async () => {
-        await logout();
-        router.push("/");
-    };
 
     return (
         <div className="fixed bottom-6 left-4 right-4 z-50 flex justify-center">
@@ -72,23 +64,6 @@ export function Navigation() {
                         const isActive = pathname === item.href;
                         const Icon = item.icon;
 
-                        if (item.isAction) {
-                            return (
-                                <li key={item.name} className="relative">
-                                    <button
-                                        onClick={handleLogout}
-                                        className={cn(
-                                            "flex flex-col items-center justify-center w-14 h-14 rounded-xl transition-all duration-300 relative z-10 text-muted-foreground hover:text-red-500 hover:bg-white/5"
-                                        )}
-                                    >
-                                        <Icon className="w-6 h-6 relative z-10" />
-                                        <span className="text-[9px] font-bold mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            {item.name}
-                                        </span>
-                                    </button>
-                                </li>
-                            );
-                        }
 
                         return (
                             <li key={item.href} className="relative">
