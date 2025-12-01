@@ -43,36 +43,47 @@ export function Pricing() {
                 <div className="relative">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {plans.map((plan, i) => (
-                            <div
+                            <motion.div
                                 key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.1 }}
                                 className={cn(
-                                    "glass-card p-8 rounded-3xl border relative overflow-hidden",
-                                    plan.popular ? "border-primary/50" : "border-white/10"
+                                    "glass-card p-8 rounded-3xl border relative overflow-hidden transition-all duration-300",
+                                    plan.popular
+                                        ? "border-primary/50 shadow-[0_0_40px_-10px_rgba(168,85,247,0.3)] scale-105 z-10"
+                                        : "border-white/10 hover:border-white/20 hover:scale-105"
                                 )}
                             >
                                 {plan.popular && (
-                                    <div className="absolute top-0 right-0 bg-primary text-black text-xs font-bold px-3 py-1 rounded-bl-xl">
-                                        POPULAR
+                                    <div className="absolute top-0 right-0 bg-gradient-to-bl from-primary to-secondary text-white text-xs font-bold px-4 py-1.5 rounded-bl-xl shadow-lg">
+                                        MOST POPULAR
                                     </div>
                                 )}
                                 <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
                                 <div className={cn("text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r", plan.color)}>
                                     {plan.price}<span className="text-lg text-muted-foreground font-normal">/mo</span>
                                 </div>
-                                <ul className="space-y-4">
+                                <ul className="space-y-4 mb-8">
                                     {plan.features.map((f, j) => (
-                                        <li key={j} className="flex items-center gap-2 text-sm text-muted-foreground">
-                                            <Check className="w-4 h-4 text-primary" /> {f}
+                                        <li key={j} className="flex items-center gap-3 text-sm text-muted-foreground">
+                                            <div className="p-1 rounded-full bg-primary/10">
+                                                <Check className="w-3 h-3 text-primary" />
+                                            </div>
+                                            {f}
                                         </li>
                                     ))}
                                 </ul>
                                 <button className={cn(
-                                    "w-full mt-8 py-3 rounded-xl font-bold transition-all",
-                                    plan.popular ? "bg-primary text-black" : "bg-white/10 hover:bg-white/20"
+                                    "w-full py-3 rounded-xl font-bold transition-all duration-300",
+                                    plan.popular
+                                        ? "bg-gradient-to-r from-primary to-secondary text-white shadow-lg hover:shadow-primary/25"
+                                        : "bg-white/5 hover:bg-white/10 border border-white/5"
                                 )}>
                                     Choose {plan.name}
                                 </button>
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
                 </div>

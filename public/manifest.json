@@ -6,6 +6,13 @@
   "display": "standalone",
   "background_color": "#0a0a0a",
   "theme_color": "#0a0a0a",
+  "orientation": "portrait",
+  "scope": "/",
+  "categories": [
+    "fitness",
+    "productivity",
+    "lifestyle"
+  ],
   "icons": [
     {
       "src": "/logo.svg",

@@ -19,28 +19,44 @@ export function GlowMonitor() {
         return x - Math.floor(x);
     };
 
+    const getDaysToRender = () => {
+        switch (viewMode) {
+            case "weekly": return 7;
+            case "monthly": return 30;
+            case "quarterly": return 90;
+            default: return 7;
+        }
+    };
+
+    const daysToRender = getDaysToRender();
+
     const handlePrev = () => {
-        if (viewMode === "weekly") setCurrentDate(subDays(currentDate, 30));
+        setCurrentDate(subDays(currentDate, daysToRender));
     };
 
     const handleNext = () => {
-        if (viewMode === "weekly") setCurrentDate(addDays(currentDate, 30));
+        setCurrentDate(addDays(currentDate, daysToRender));
     };
 
     const end = currentDate;
-    const start = subDays(end, 29); // Last 30 days
+    const start = subDays(end, daysToRender - 1);
     const days = eachDayOfInterval({ start, end });
 
     const [taskStats, setTaskStats] = useState<Record<string, number>>({});
 
     useEffect(() => {
-        // Generate consistent stats for the session
+        // Generate consistent stats for the session based on view/date
         const stats: Record<string, number> = {};
         ["Morning Jog", "Drink Water", "No Sugar", "Read", "Sleep"].forEach(task => {
-            stats[task] = Math.floor(Math.random() * (98 - 40) + 40); // Random between 40% and 98%
+            // Pseudo-random based on date and task length to simulate variety
+            const seed = currentDate.getTime() + task.length + (viewMode === "quarterly" ? 100 : 0);
+            const random = Math.sin(seed) * 10000;
+            const value = Math.abs(random - Math.floor(random));
+
+            stats[task] = Math.floor(value * (98 - 40) + 40);
         });
         setTaskStats(stats);
-    }, []);
+    }, [viewMode, currentDate]);
 
     const [selectedColor, setSelectedColor] = useState<string>("purple");
 
@@ -116,7 +132,12 @@ export function GlowMonitor() {
             {/* Main Glow Block */}
             <div className="space-y-4">
                 <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wider pl-2">Consistency Heatmap</h3>
-                <div className="grid grid-cols-6 sm:grid-cols-10 gap-2">
+                <div className={cn(
+                    "grid gap-2",
+                    viewMode === "weekly" && "grid-cols-7",
+                    viewMode === "monthly" && "grid-cols-6 sm:grid-cols-10",
+                    viewMode === "quarterly" && "grid-cols-10 sm:grid-cols-15"
+                )}>
                     {days.map((day, i) => {
                         const intensity = getGlowIntensity(day);
                         return (
@@ -125,7 +146,7 @@ export function GlowMonitor() {
                                 initial={{ scale: 0, opacity: 0, y: 20 }}
                                 animate={{ scale: 1, opacity: 1, y: 0 }}
                                 transition={{
-                                    delay: i * 0.03,
+                                    delay: i * (viewMode === "quarterly" ? 0.01 : 0.03),
                                     type: "spring",
                                     stiffness: 260,
                                     damping: 20
@@ -150,7 +171,7 @@ export function GlowMonitor() {
                                         duration: 3,
                                         repeat: Infinity,
                                         ease: "easeInOut",
-                                        delay: i * 0.1 // Stagger the breathing effect
+                                        delay: i * 0.1
                                     }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
@@ -175,10 +196,10 @@ export function GlowMonitor() {
                         );
                     })}
                 </div>
-            </div>
+            </div >
 
             {/* Individual Tasks Breakdown (Scrollable) */}
-            <div className="space-y-4">
+            < div className="space-y-4" >
                 <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wider pl-2">Task Breakdown</h3>
                 <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                     {["Morning Jog", "Drink Water", "No Sugar", "Read", "Sleep"].map((task, i) => (
@@ -208,7 +229,7 @@ export function GlowMonitor() {
                         </motion.div>
                     ))}
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }

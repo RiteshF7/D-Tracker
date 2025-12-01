@@ -7,7 +7,7 @@ export default function AppLayout({
 }>) {
     return (
         <>
-            <main className="container mx-auto px-4 py-6 max-w-md pb-24">
+            <main className="container mx-auto px-4 py-6 max-w-lg pb-28">
                 {children}
             </main>
             <Navigation />
