@@ -1,84 +1,217 @@
 @import "tailwindcss";
 
 @theme {
-    --color-background: #030303;
-    --color-foreground: #ffffff;
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
 
-    --color-card: #0f0f0f;
-    --color-card-foreground: #ffffff;
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
 
-    --color-popover: #0f0f0f;
-    --color-popover-foreground: #ffffff;
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
 
-    --color-primary: #8b5cf6;
-    --color-primary-foreground: #ffffff;
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
 
-    --color-secondary: #ec4899;
-    --color-secondary-foreground: #ffffff;
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
 
-    --color-muted: #1f1f1f;
-    --color-muted-foreground: #a1a1aa;
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
 
-    --color-accent: #27272a;
-    --color-accent-foreground: #ffffff;
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
 
-    --color-destructive: #ef4444;
-    --color-destructive-foreground: #ffffff;
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
 
-    --color-border: #27272a;
-    --color-input: #27272a;
-    --color-ring: #8b5cf6;
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
 
     --radius-lg: 0.5rem;
     --radius-md: calc(0.5rem - 2px);
     --radius-sm: calc(0.5rem - 4px);
 }
 
+/* Base Variables (Obsidian - Default) */
+:root {
+    --background: #0f172a;
+    /* Slate 900 */
+    --foreground: #f8fafc;
+
+    --card: #1e293b;
+    /* Slate 800 */
+    --card-foreground: #f8fafc;
+
+    --popover: #1e293b;
+    --popover-foreground: #f8fafc;
+
+    --primary: #3b82f6;
+    /* Blue 500 */
+    --primary-foreground: #ffffff;
+
+    --secondary: #6366f1;
+    /* Indigo 500 */
+    --secondary-foreground: #ffffff;
+
+    --muted: #334155;
+    --muted-foreground: #94a3b8;
+
+    --accent: #334155;
+    --accent-foreground: #f8fafc;
+
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+
+    --border: #334155;
+    --input: #334155;
+    --ring: #3b82f6;
+}
+
+/* Ocean Theme */
+[data-theme='ocean'] {
+    --background: #082f49;
+    /* Sky 950 */
+    --foreground: #f0f9ff;
+
+    --card: #0c4a6e;
+    /* Sky 900 */
+    --card-foreground: #f0f9ff;
+
+    --popover: #0c4a6e;
+    --popover-foreground: #f0f9ff;
+
+    --primary: #06b6d4;
+    /* Cyan 500 */
+    --primary-foreground: #ffffff;
+
+    --secondary: #3b82f6;
+    /* Blue 500 */
+    --secondary-foreground: #ffffff;
+
+    --muted: #075985;
+    --muted-foreground: #bae6fd;
+
+    --accent: #075985;
+    --accent-foreground: #f0f9ff;
+
+    --border: #075985;
+    --input: #075985;
+    --ring: #06b6d4;
+}
+
+/* Forest Theme */
+[data-theme='forest'] {
+    --background: #052e16;
+    /* Green 950 */
+    --foreground: #f0fdf4;
+
+    --card: #14532d;
+    /* Green 900 */
+    --card-foreground: #f0fdf4;
+
+    --popover: #14532d;
+    --popover-foreground: #f0fdf4;
+
+    --primary: #22c55e;
+    /* Green 500 */
+    --primary-foreground: #ffffff;
+
+    --secondary: #84cc16;
+    /* Lime 500 */
+    --secondary-foreground: #ffffff;
+
+    --muted: #166534;
+    --muted-foreground: #bbf7d0;
+
+    --accent: #166534;
+    --accent-foreground: #f0fdf4;
+
+    --border: #166534;
+    --input: #166534;
+    --ring: #22c55e;
+}
+
+/* Crimson Theme */
+[data-theme='crimson'] {
+    --background: #450a0a;
+    /* Red 950 */
+    --foreground: #fff1f2;
+
+    --card: #7f1d1d;
+    /* Red 900 */
+    --card-foreground: #fff1f2;
+
+    --popover: #7f1d1d;
+    --popover-foreground: #fff1f2;
+
+    --primary: #ef4444;
+    /* Red 500 */
+    --primary-foreground: #ffffff;
+
+    --secondary: #f97316;
+    /* Orange 500 */
+    --secondary-foreground: #ffffff;
+
+    --muted: #991b1b;
+    --muted-foreground: #fecaca;
+
+    --accent: #991b1b;
+    --accent-foreground: #fff1f2;
+
+    --border: #991b1b;
+    --input: #991b1b;
+    --ring: #ef4444;
+}
+
 @layer base {
     body {
-        background-color: var(--color-background);
-        color: var(--color-foreground);
+        background-color: var(--background);
+        color: var(--foreground);
         background-image:
-            radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.15) 0%, transparent 60%),
-            radial-gradient(circle at 80% 10%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--primary) 15%, transparent) 0%, transparent 60%),
+            radial-gradient(circle at 80% 10%, color-mix(in srgb, var(--secondary) 10%, transparent) 0%, transparent 50%),
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
         background-attachment: fixed;
         font-feature-settings: "rlig" 1, "calt" 1;
+        transition: background-color 0.5s ease, color 0.5s ease;
     }
 }
 
 @layer utilities {
     .glass {
-        background: rgba(255, 255, 255, 0.03);
+        background: color-mix(in srgb, var(--foreground) 3%, transparent);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
     }
 
     .glass-card {
-        background: rgba(15, 15, 15, 0.6);
+        background: color-mix(in srgb, var(--card) 60%, transparent);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
     }
 
     .glass-nav {
-        background: rgba(3, 3, 3, 0.7);
+        background: color-mix(in srgb, var(--background) 70%, transparent);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        border-top: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
     }
 
     .glow-primary {
-        box-shadow: 0 0 40px -10px rgba(139, 92, 246, 0.5);
+        box-shadow: 0 0 40px -10px color-mix(in srgb, var(--primary) 50%, transparent);
     }
 
     .glow-secondary {
-        box-shadow: 0 0 40px -10px rgba(236, 72, 153, 0.5);
+        box-shadow: 0 0 40px -10px color-mix(in srgb, var(--secondary) 50%, transparent);
     }
 
     .glow-text {
-        text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        text-shadow: 0 0 20px color-mix(in srgb, var(--primary) 50%, transparent);
     }
 
     .no-scrollbar::-webkit-scrollbar {

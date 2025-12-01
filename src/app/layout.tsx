@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { cn } from "@/lib/utils";
 import { AuthContextProvider } from "@/context/AuthContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -62,7 +63,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn(inter.className, "bg-background text-foreground min-h-screen")}>
         <AuthContextProvider>
-          {children}
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
         </AuthContextProvider>
       </body>
     </html>

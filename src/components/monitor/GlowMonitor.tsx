@@ -179,7 +179,7 @@ export function GlowMonitor() {
                                         className="absolute bottom-0 left-0 right-0"
                                         initial={{ height: 0 }}
                                         animate={{ height: `${intensity * 100}%` }}
-                                        transition={{ duration: 1.5, delay: 0.5 + i * 0.03, ease: "easeOut" }}
+                                        transition={{ duration: 4, delay: 0.5 + i * 0.1, ease: "easeOut" }}
                                         style={{
                                             backgroundColor: currentTheme.hex,
                                             opacity: 0.4
