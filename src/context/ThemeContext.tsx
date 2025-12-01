@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "obsidian" | "ocean" | "forest" | "crimson";
+type Theme = "obsidian" | "ocean" | "sapphire" | "crimson";
 
 interface ThemeContextType {
     theme: Theme;

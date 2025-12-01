@@ -61,7 +61,7 @@ export function GlowMonitor() {
     const [selectedColor, setSelectedColor] = useState<string>("purple");
 
     const THEMES: Record<string, { hex: string; rgb: string }> = {
-        green: { hex: "#00ff9d", rgb: "0, 255, 157" },
+        sapphire: { hex: "#2563eb", rgb: "37, 99, 235" },
         blue: { hex: "#00d2ff", rgb: "0, 210, 255" },
         purple: { hex: "#a855f7", rgb: "168, 85, 247" },
         pink: { hex: "#ff0055", rgb: "255, 0, 85" },
