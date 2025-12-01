@@ -11,6 +11,10 @@ export const metadata: Metadata = {
   title: "D Tracker",
   description: "Daily Activity & Fitness Tracker",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/logo.svg",
+    apple: "/logo.svg",
+  },
 };
 
 export const viewport: Viewport = {
