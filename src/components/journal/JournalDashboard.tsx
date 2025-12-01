@@ -1,19 +1,26 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { format, subDays, addDays } from "date-fns";
-import { ChevronLeft, ChevronRight, Save, BookOpen, Smile, Meh, Frown } from "lucide-react";
+import { ChevronLeft, ChevronRight, Save, BookOpen, Smile, Meh, Frown, Paperclip, X, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { storage } from "@/lib/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useAuth } from "@/context/AuthContext";
 
 type Mood = "happy" | "neutral" | "sad" | null;
 
 export function JournalDashboard() {
+    const { user } = useAuth();
     const [currentDate, setCurrentDate] = useState(new Date());
     const [entry, setEntry] = useState("");
     const [mood, setMood] = useState<Mood>(null);
+    const [attachments, setAttachments] = useState<string[]>([]);
     const [isSaving, setIsSaving] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
     const [showSaved, setShowSaved] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const dateKey = format(currentDate, "yyyy-MM-dd");
 
@@ -24,9 +31,11 @@ export function JournalDashboard() {
             const parsed = JSON.parse(savedData);
             setEntry(parsed.text || "");
             setMood(parsed.mood || null);
+            setAttachments(parsed.attachments || []);
         } else {
             setEntry("");
             setMood(null);
+            setAttachments([]);
         }
     }, [dateKey]);
 
@@ -35,6 +44,7 @@ export function JournalDashboard() {
         const data = {
             text: entry,
             mood: mood,
+            attachments: attachments,
             updatedAt: new Date().toISOString(),
         };
         localStorage.setItem(`d-tracker-journal-${dateKey}`, JSON.stringify(data));
@@ -44,6 +54,34 @@ export function JournalDashboard() {
             setShowSaved(true);
             setTimeout(() => setShowSaved(false), 2000);
         }, 600);
+    };
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files || e.target.files.length === 0) return;
+        if (!user) {
+            alert("Please login to upload attachments");
+            return;
+        }
+
+        setIsUploading(true);
+        const file = e.target.files[0];
+        const storageRef = ref(storage, `journal/${user.uid}/${dateKey}/${Date.now()}_${file.name}`);
+
+        try {
+            const snapshot = await uploadBytes(storageRef, file);
+            const downloadURL = await getDownloadURL(snapshot.ref);
+            setAttachments(prev => [...prev, downloadURL]);
+        } catch (error) {
+            console.error("Error uploading file:", error);
+            alert("Failed to upload attachment");
+        } finally {
+            setIsUploading(false);
+            if (fileInputRef.current) fileInputRef.current.value = "";
+        }
+    };
+
+    const removeAttachment = (index: number) => {
+        setAttachments(prev => prev.filter((_, i) => i !== index));
     };
 
     const handlePrevDay = () => setCurrentDate(prev => subDays(prev, 1));
@@ -97,23 +135,58 @@ export function JournalDashboard() {
                 </div>
             </div>
 
-            {/* Text Area */}
+            {/* Text Area & Attachments */}
             <div className="glass-card p-1 rounded-2xl relative group">
                 <textarea
                     value={entry}
                     onChange={(e) => setEntry(e.target.value)}
                     placeholder="Write about your day..."
-                    className="w-full h-[400px] bg-transparent text-white p-5 rounded-xl resize-none focus:outline-none focus:bg-white/5 transition-colors placeholder:text-white/20 leading-relaxed"
+                    className="w-full h-[300px] bg-transparent text-white p-5 rounded-xl resize-none focus:outline-none focus:bg-white/5 transition-colors placeholder:text-white/20 leading-relaxed"
                 />
 
-                {/* Save Button (Floating) */}
-                <div className="absolute bottom-4 right-4">
+                {/* Attachments List */}
+                {attachments.length > 0 && (
+                    <div className="px-5 pb-4 flex gap-3 overflow-x-auto no-scrollbar">
+                        {attachments.map((url, i) => (
+                            <div key={i} className="relative flex-shrink-0 group/img">
+                                <img src={url} alt="Attachment" className="h-20 w-20 object-cover rounded-lg border border-white/10" />
+                                <button
+                                    onClick={() => removeAttachment(i)}
+                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover/img:opacity-100 transition-opacity shadow-lg"
+                                >
+                                    <X className="w-3 h-3" />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Toolbar */}
+                <div className="flex items-center justify-between px-4 pb-4 pt-2 border-t border-white/5">
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handleFileUpload}
+                            accept="image/*"
+                            className="hidden"
+                        />
+                        <button
+                            onClick={() => fileInputRef.current?.click()}
+                            disabled={isUploading}
+                            className="p-2 hover:bg-white/10 rounded-full transition-colors text-muted-foreground hover:text-white disabled:opacity-50"
+                            title="Add Attachment"
+                        >
+                            {isUploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Paperclip className="w-5 h-5" />}
+                        </button>
+                    </div>
+
                     <motion.button
                         whileTap={{ scale: 0.95 }}
                         onClick={handleSave}
                         disabled={isSaving}
                         className={cn(
-                            "flex items-center gap-2 px-6 py-3 rounded-xl font-bold shadow-lg transition-all",
+                            "flex items-center gap-2 px-6 py-2 rounded-xl font-bold shadow-lg transition-all text-sm",
                             isSaving ? "bg-violet-500/50 cursor-wait" : "bg-violet-600 hover:bg-violet-500 hover:shadow-violet-500/25"
                         )}
                     >
@@ -122,11 +195,11 @@ export function JournalDashboard() {
                                 animate={{ rotate: 360 }}
                                 transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
                             >
-                                <Save className="w-5 h-5" />
+                                <Save className="w-4 h-4" />
                             </motion.div>
                         ) : (
                             <>
-                                <Save className="w-5 h-5" />
+                                <Save className="w-4 h-4" />
                                 <span>Save</span>
                             </>
                         )}
