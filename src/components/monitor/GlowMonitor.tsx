@@ -20,15 +20,15 @@ export function GlowMonitor() {
     };
 
     const handlePrev = () => {
-        if (viewMode === "weekly") setCurrentDate(subDays(currentDate, 7));
+        if (viewMode === "weekly") setCurrentDate(subDays(currentDate, 30));
     };
 
     const handleNext = () => {
-        if (viewMode === "weekly") setCurrentDate(addDays(currentDate, 7));
+        if (viewMode === "weekly") setCurrentDate(addDays(currentDate, 30));
     };
 
-    const start = startOfWeek(currentDate);
-    const end = endOfWeek(currentDate);
+    const end = currentDate;
+    const start = subDays(end, 29); // Last 30 days
     const days = eachDayOfInterval({ start, end });
 
     const [taskStats, setTaskStats] = useState<Record<string, number>>({});
@@ -116,36 +116,61 @@ export function GlowMonitor() {
             {/* Main Glow Block */}
             <div className="space-y-4">
                 <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wider pl-2">Consistency Heatmap</h3>
-                <div className="grid grid-cols-7 gap-3">
+                <div className="grid grid-cols-6 sm:grid-cols-10 gap-2">
                     {days.map((day, i) => {
                         const intensity = getGlowIntensity(day);
                         return (
                             <motion.div
                                 key={i}
-                                initial={{ scale: 0, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                transition={{ delay: i * 0.05, type: "spring" }}
-                                className="flex flex-col items-center gap-2 group"
+                                initial={{ scale: 0, opacity: 0, y: 20 }}
+                                animate={{ scale: 1, opacity: 1, y: 0 }}
+                                transition={{
+                                    delay: i * 0.03,
+                                    type: "spring",
+                                    stiffness: 260,
+                                    damping: 20
+                                }}
+                                whileHover={{ scale: 1.1, zIndex: 10 }}
+                                className="flex flex-col items-center gap-1 group relative"
                             >
-                                <div
-                                    className="w-full aspect-[1/2] rounded-xl transition-all duration-500 relative overflow-hidden group-hover:scale-105"
+                                <motion.div
+                                    className="w-full aspect-square rounded-lg relative overflow-hidden"
                                     style={{
                                         backgroundColor: `rgba(${currentTheme.rgb}, ${0.05 + intensity * 0.1})`,
-                                        boxShadow: `0 0 ${intensity * 30}px ${intensity * 2}px rgba(${currentTheme.rgb}, ${intensity * 0.4})`,
                                         border: `1px solid rgba(${currentTheme.rgb}, ${0.1 + intensity * 0.3})`
+                                    }}
+                                    animate={{
+                                        boxShadow: [
+                                            `0 0 ${intensity * 10}px ${intensity * 1}px rgba(${currentTheme.rgb}, ${intensity * 0.2})`,
+                                            `0 0 ${intensity * 20}px ${intensity * 2}px rgba(${currentTheme.rgb}, ${intensity * 0.4})`,
+                                            `0 0 ${intensity * 10}px ${intensity * 1}px rgba(${currentTheme.rgb}, ${intensity * 0.2})`
+                                        ]
+                                    }}
+                                    transition={{
+                                        duration: 3,
+                                        repeat: Infinity,
+                                        ease: "easeInOut",
+                                        delay: i * 0.1 // Stagger the breathing effect
                                     }}
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                                    <div
+                                    <motion.div
                                         className="absolute bottom-0 left-0 right-0"
+                                        initial={{ height: 0 }}
+                                        animate={{ height: `${intensity * 100}%` }}
+                                        transition={{ duration: 1.5, delay: 0.5 + i * 0.03, ease: "easeOut" }}
                                         style={{
                                             backgroundColor: currentTheme.hex,
-                                            height: `${intensity * 100}%`,
-                                            opacity: 0.2
+                                            opacity: 0.4
                                         }}
                                     />
+                                </motion.div>
+                                <span className="text-[9px] font-medium text-muted-foreground group-hover:text-white transition-colors">{format(day, "d")}</span>
+
+                                {/* Tooltip */}
+                                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/90 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-20 border border-white/10">
+                                    {format(day, "MMM d")} • {Math.round(intensity * 100)}%
                                 </div>
-                                <span className="text-[10px] font-medium text-muted-foreground group-hover:text-white transition-colors">{format(day, "EEE")}</span>
                             </motion.div>
                         );
                     })}
