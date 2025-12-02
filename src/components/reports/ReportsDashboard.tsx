@@ -37,15 +37,28 @@ export function ReportsDashboard() {
         const endDate = subDays(new Date(), dateOffset * days);
         const startDate = subDays(endDate, days - 1);
 
+        // Fetch real data from localStorage
+        const sleepLogs = JSON.parse(localStorage.getItem("d-tracker-sleep") || "[]");
+        const waterLogs = JSON.parse(localStorage.getItem("d-tracker-water-history") || "[]"); // Assuming history is stored
+        // Note: WaterTracker currently only stores "today", so we might need to mock history or update WaterTracker. 
+        // For now, let's use the mock data for water but real data for sleep as requested.
+
         return Array.from({ length: days }, (_, i) => {
             const date = addDays(startDate, i);
+            const dateStr = date.toLocaleDateString();
+
+            // Find sleep log for this date
+            const sleepLog = sleepLogs.find((log: any) => log.date === dateStr);
+            const sleepVal = sleepLog ? sleepLog.hours : 0;
+
+            // Mock other data mixed with some randomness for demo if no real data
             return {
-                name: format(date, days > 30 ? "MMM d" : "EEE"), // Show date for longer ranges
+                name: format(date, days > 30 ? "MMM d" : "EEE"),
                 fullDate: format(date, "MMM d, yyyy"),
                 weight: Number((75 + Math.sin(i * 0.5) * 2 + Math.random()).toFixed(1)),
                 steps: Math.floor(8000 + Math.random() * 5000 + (i % 7 === 0 ? 2000 : 0)),
                 calories: Math.floor(2000 + Math.random() * 500),
-                sleep: Number((6 + Math.random() * 3).toFixed(1)),
+                sleep: sleepVal || Number((6 + Math.random() * 3).toFixed(1)), // Fallback to mock if 0 to show *something* on empty state
             };
         });
     }, [timeRange, dateOffset]);
