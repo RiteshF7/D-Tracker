@@ -1,7 +1,6 @@
 "use client";
 
 import { ManagerDashboard } from "@/components/manager/ManagerDashboard";
-import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
 export default function ManagerPage() {
     return (
         <div className="space-y-6">
@@ -10,7 +9,6 @@ export default function ManagerPage() {
                 <p className="text-muted-foreground">Customize your tracking experience.</p>
             </header>
 
-            <ThemeSwitcher />
             <ManagerDashboard />
 
         </div>

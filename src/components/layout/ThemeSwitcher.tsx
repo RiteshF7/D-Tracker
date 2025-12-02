@@ -7,9 +7,10 @@ import { cn } from "@/lib/utils";
 
 const themes = [
     { id: "obsidian", name: "Obsidian", color: "bg-slate-900", accent: "bg-purple-500" },
-    { id: "ocean", name: "Ocean", color: "bg-sky-950", accent: "bg-cyan-500" },
-    { id: "sapphire", name: "Sapphire", color: "bg-slate-900", accent: "bg-blue-600" },
-    { id: "crimson", name: "Crimson", color: "bg-red-950", accent: "bg-red-500" },
+    { id: "ocean", name: "Ocean", color: "bg-teal-950", accent: "bg-teal-400" },
+    { id: "sapphire", name: "Sapphire", color: "bg-slate-950", accent: "bg-blue-500" },
+    { id: "crimson", name: "Crimson", color: "bg-red-950", accent: "bg-red-400" },
+    { id: "emerald", name: "Emerald", color: "bg-green-950", accent: "bg-green-400" },
 ];
 
 export function ThemeSwitcher() {

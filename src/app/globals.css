@@ -69,100 +69,132 @@
     --ring: #a855f7;
 }
 
-/* Ocean Theme */
+/* Ocean Theme (Deep Teal/Cyan) */
 [data-theme='ocean'] {
-    --background: #082f49;
-    /* Sky 950 */
-    --foreground: #f0f9ff;
+    --background: #042f2e;
+    /* Teal 950 */
+    --foreground: #f0fdfa;
 
-    --card: #0c4a6e;
-    /* Sky 900 */
-    --card-foreground: #f0f9ff;
+    --card: #115e59;
+    /* Teal 800 */
+    --card-foreground: #f0fdfa;
 
-    --popover: #0c4a6e;
-    --popover-foreground: #f0f9ff;
+    --popover: #115e59;
+    --popover-foreground: #f0fdfa;
 
-    --primary: #06b6d4;
+    --primary: #2dd4bf;
+    /* Teal 400 */
+    --primary-foreground: #042f2e;
+
+    --secondary: #06b6d4;
     /* Cyan 500 */
-    --primary-foreground: #ffffff;
-
-    --secondary: #3b82f6;
-    /* Blue 500 */
     --secondary-foreground: #ffffff;
 
-    --muted: #075985;
-    --muted-foreground: #bae6fd;
+    --muted: #134e4a;
+    --muted-foreground: #99f6e4;
 
-    --accent: #075985;
-    --accent-foreground: #f0f9ff;
+    --accent: #134e4a;
+    --accent-foreground: #f0fdfa;
 
-    --border: #075985;
-    --input: #075985;
-    --ring: #06b6d4;
+    --border: #134e4a;
+    --input: #134e4a;
+    --ring: #2dd4bf;
 }
 
-/* Sapphire Theme */
+/* Sapphire Theme (Deep Blue) */
 [data-theme='sapphire'] {
-    --background: #0f172a;
-    /* Slate 900 */
-    --foreground: #f0f9ff;
+    --background: #020617;
+    /* Slate 950 */
+    --foreground: #eff6ff;
 
-    --card: #1e293b;
-    /* Slate 800 */
-    --card-foreground: #f0f9ff;
+    --card: #1e3a8a;
+    /* Blue 900 */
+    --card-foreground: #eff6ff;
 
-    --popover: #1e293b;
-    --popover-foreground: #f0f9ff;
+    --popover: #1e3a8a;
+    --popover-foreground: #eff6ff;
 
-    --primary: #2563eb;
-    /* Blue 600 */
+    --primary: #3b82f6;
+    /* Blue 500 */
     --primary-foreground: #ffffff;
 
-    --secondary: #3b82f6;
-    /* Blue 500 */
+    --secondary: #60a5fa;
+    /* Blue 400 */
     --secondary-foreground: #ffffff;
 
-    --muted: #1e3a8a;
+    --muted: #172554;
     --muted-foreground: #bfdbfe;
 
-    --accent: #1e3a8a;
-    --accent-foreground: #f0f9ff;
+    --accent: #172554;
+    --accent-foreground: #eff6ff;
 
-    --border: #1e3a8a;
-    --input: #1e3a8a;
-    --ring: #2563eb;
+    --border: #172554;
+    --input: #172554;
+    --ring: #3b82f6;
 }
 
-/* Crimson Theme */
+/* Crimson Theme (Deep Red) */
 [data-theme='crimson'] {
     --background: #450a0a;
     /* Red 950 */
     --foreground: #fff1f2;
 
-    --card: #7f1d1d;
-    /* Red 900 */
+    --card: #991b1b;
+    /* Red 800 */
     --card-foreground: #fff1f2;
 
-    --popover: #7f1d1d;
+    --popover: #991b1b;
     --popover-foreground: #fff1f2;
 
-    --primary: #ef4444;
-    /* Red 500 */
-    --primary-foreground: #ffffff;
+    --primary: #f87171;
+    /* Red 400 */
+    --primary-foreground: #450a0a;
 
-    --secondary: #f97316;
-    /* Orange 500 */
-    --secondary-foreground: #ffffff;
+    --secondary: #fb923c;
+    /* Orange 400 */
+    --secondary-foreground: #450a0a;
 
-    --muted: #991b1b;
+    --muted: #7f1d1d;
     --muted-foreground: #fecaca;
 
-    --accent: #991b1b;
+    --accent: #7f1d1d;
     --accent-foreground: #fff1f2;
 
-    --border: #991b1b;
-    --input: #991b1b;
-    --ring: #ef4444;
+    --border: #7f1d1d;
+    --input: #7f1d1d;
+    --ring: #f87171;
+}
+
+/* Emerald Theme (Deep Green) */
+[data-theme='emerald'] {
+    --background: #052e16;
+    /* Green 950 */
+    --foreground: #f0fdf4;
+
+    --card: #166534;
+    /* Green 800 */
+    --card-foreground: #f0fdf4;
+
+    --popover: #166534;
+    --popover-foreground: #f0fdf4;
+
+    --primary: #4ade80;
+    /* Green 400 */
+    --primary-foreground: #052e16;
+
+    --secondary: #34d399;
+    /* Emerald 400 */
+    --secondary-foreground: #052e16;
+
+    --muted: #14532d;
+    --muted-foreground: #bbf7d0;
+
+    --accent: #14532d;
+    --accent-foreground: #f0fdf4;
+
+    --border: #14532d;
+    --input: #14532d;
+    --ring: #4ade80;
 }
 
 @layer base {

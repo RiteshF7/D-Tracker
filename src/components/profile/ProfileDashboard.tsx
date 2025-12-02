@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { Camera, Save, LogOut, User as UserIcon, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
 
 export function ProfileDashboard() {
     const { user, logout } = useAuth();
@@ -127,6 +128,9 @@ export function ProfileDashboard() {
                     </button>
                 </div>
             </div>
+
+            {/* Theme Switcher */}
+            <ThemeSwitcher />
 
             {/* Logout Button */}
             <button
