@@ -5,6 +5,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { AnimatedBackground } from "@/components/layout/AnimatedBackground";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -64,6 +65,7 @@ export default function RootLayout({
       <body className={cn(inter.className, "bg-background text-foreground min-h-screen")}>
         <AuthContextProvider>
           <ThemeProvider>
+            <AnimatedBackground />
             {children}
           </ThemeProvider>
         </AuthContextProvider>

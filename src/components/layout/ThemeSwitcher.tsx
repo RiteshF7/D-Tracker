@@ -6,7 +6,7 @@ import { Check, Palette } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const themes = [
-    { id: "obsidian", name: "Obsidian", color: "bg-slate-900", accent: "bg-blue-500" },
+    { id: "obsidian", name: "Obsidian", color: "bg-slate-900", accent: "bg-purple-500" },
     { id: "ocean", name: "Ocean", color: "bg-sky-950", accent: "bg-cyan-500" },
     { id: "sapphire", name: "Sapphire", color: "bg-slate-900", accent: "bg-blue-600" },
     { id: "crimson", name: "Crimson", color: "bg-red-950", accent: "bg-red-500" },
