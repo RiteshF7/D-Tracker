@@ -13,7 +13,8 @@ import {
     BookOpen,
     User as UserIcon,
     Menu,
-    X
+    X,
+    Dumbbell
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +24,7 @@ const navItems = [
     { name: "Monitor", href: "/monitor", icon: BarChart2, color: "text-[#c084fc]" },
     { name: "Reports", href: "/reports", icon: LineChart, color: "text-[#f472b6]" },
     { name: "Journal", href: "/journal", icon: BookOpen, color: "text-[#7c3aed]" },
+    { name: "Fitness", href: "/fitness", icon: Dumbbell, color: "text-emerald-400" },
     { name: "Manage", href: "/manager", icon: Settings, color: "text-white" },
     { name: "Profile", href: "/profile", icon: UserIcon, color: "text-[#38bdf8]" },
 ];
