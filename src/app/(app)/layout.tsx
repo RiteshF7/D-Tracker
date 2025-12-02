@@ -1,4 +1,4 @@
-import { Navigation } from "@/components/layout/Navigation";
+import { RadialNavigation } from "@/components/layout/RadialNavigation";
 
 export default function AppLayout({
     children,
@@ -10,7 +10,7 @@ export default function AppLayout({
             <main className="container mx-auto px-4 py-6 max-w-lg pb-28">
                 {children}
             </main>
-            <Navigation />
+            <RadialNavigation />
         </>
     );
 }
