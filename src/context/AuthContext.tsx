@@ -60,7 +60,8 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 
     const logout = async () => {
         // await firebaseLogout();
-        console.log("Guest Mode: Logout disabled");
+        setUser(null);
+        console.log("Guest Mode: Logged out");
     };
 
     return (
