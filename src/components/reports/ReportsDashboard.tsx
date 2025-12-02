@@ -27,11 +27,9 @@ interface DailyLog {
     sleepQuality?: string;
 }
 
-// --- GTA Dial Component ---
-const GTADial = ({ data }: { data: DailyLog }) => {
-    const [hoveredMetric, setHoveredMetric] = useState<string | null>(null);
-
-    // Goals
+// --- Activity Rings Component ---
+const ActivityRings = ({ data }: { data: DailyLog }) => {
+    // Goals (could be dynamic)
     const goals = {
         steps: 10000,
         calories: 2500,
@@ -39,147 +37,61 @@ const GTADial = ({ data }: { data: DailyLog }) => {
         water: 8
     };
 
-    const metrics = [
-        { id: "steps", label: "Steps", value: data.steps, max: goals.steps, color: "#00d2ff", icon: Activity, angle: 270 }, // Top
-        { id: "calories", label: "Calories", value: data.calories, max: goals.calories, color: "#ff0055", icon: Flame, angle: 0 },   // Right
-        { id: "sleep", label: "Sleep", value: data.sleep, max: goals.sleep, color: "#a855f7", icon: Moon, angle: 90 },     // Bottom
-        { id: "water", label: "Water", value: data.water, max: goals.water, color: "#3b82f6", icon: Droplets, angle: 180 }, // Left
+    const rings = [
+        { id: "steps", value: data.steps, max: goals.steps, color: "#00d2ff", icon: Activity },
+        { id: "calories", value: data.calories, max: goals.calories, color: "#ff0055", icon: Flame },
+        { id: "sleep", value: data.sleep, max: goals.sleep, color: "#a855f7", icon: Moon },
+        { id: "water", value: data.water, max: goals.water, color: "#3b82f6", icon: Droplets },
     ];
 
-    // SVG Math Helpers
-    const polarToCartesian = (centerX: number, centerY: number, radius: number, angleInDegrees: number) => {
-        const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
-        return {
-            x: centerX + (radius * Math.cos(angleInRadians)),
-            y: centerY + (radius * Math.sin(angleInRadians))
-        };
-    };
-
-    const describeArc = (x: number, y: number, innerRadius: number, outerRadius: number, startAngle: number, endAngle: number) => {
-        const start = polarToCartesian(x, y, outerRadius, endAngle);
-        const end = polarToCartesian(x, y, outerRadius, startAngle);
-        const start2 = polarToCartesian(x, y, innerRadius, endAngle);
-        const end2 = polarToCartesian(x, y, innerRadius, startAngle);
-
-        const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-
-        return [
-            "M", start.x, start.y,
-            "A", outerRadius, outerRadius, 0, largeArcFlag, 0, end.x, end.y,
-            "L", end2.x, end2.y,
-            "A", innerRadius, innerRadius, 0, largeArcFlag, 1, start2.x, start2.y,
-            "Z"
-        ].join(" ");
-    };
-
     return (
-        <div className="relative w-80 h-80 mx-auto flex items-center justify-center">
-            <svg viewBox="0 0 300 300" className="w-full h-full drop-shadow-2xl">
-                <defs>
-                    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                        <feGaussianBlur stdDeviation="4" result="blur" />
-                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                    </filter>
-                </defs>
-
-                {metrics.map((metric) => {
-                    const startAngle = metric.angle - 43; // 86 degree slices with 4 degree gaps
-                    const endAngle = metric.angle + 43;
-                    const isHovered = hoveredMetric === metric.id;
-
-                    // Calculate fill percentage
-                    const progress = Math.min(metric.value / metric.max, 1);
-                    // For the fill, we want it to grow from the center outwards or fill the arc?
-                    // GTA style usually highlights the whole segment. 
-                    // Let's make the opacity depend on progress, or fill a sub-arc.
-                    // Let's do a sub-arc for the "bar" effect within the slice.
-
-                    const outerRadius = 140;
-                    const innerRadius = 60;
-                    const activeOuterRadius = isHovered ? 148 : 140;
-
-                    // Background Slice
-                    const path = describeArc(150, 150, innerRadius, activeOuterRadius, startAngle, endAngle);
-
-                    // Icon Position
-                    const iconPos = polarToCartesian(150, 150, (innerRadius + activeOuterRadius) / 2, metric.angle);
+        <div className="relative w-64 h-64 mx-auto flex items-center justify-center">
+            <svg viewBox="0 0 200 200" className="w-full h-full -rotate-90">
+                {rings.map((ring, i) => {
+                    const radius = 90 - (i * 20);
+                    const circumference = 2 * Math.PI * radius;
+                    const progress = Math.min(ring.value / ring.max, 1);
+                    const dashoffset = circumference - (progress * circumference);
 
                     return (
-                        <g
-                            key={metric.id}
-                            onMouseEnter={() => setHoveredMetric(metric.id)}
-                            onMouseLeave={() => setHoveredMetric(null)}
-                            className="cursor-pointer transition-all duration-300"
-                            style={{ transformOrigin: "150px 150px", transform: isHovered ? "scale(1.02)" : "scale(1)" }}
-                        >
-                            {/* Slice Background */}
-                            <path
-                                d={path}
-                                fill="rgba(20, 20, 20, 0.8)"
-                                stroke={isHovered ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.05)"}
-                                strokeWidth="1"
+                        <g key={ring.id}>
+                            {/* Background Ring */}
+                            <circle
+                                cx="100"
+                                cy="100"
+                                r={radius}
+                                fill="none"
+                                stroke={ring.color}
+                                strokeWidth="12"
+                                strokeOpacity="0.1"
+                                strokeLinecap="round"
                             />
-
-                            {/* Progress Fill (Overlay) */}
-                            <path
-                                d={path}
-                                fill={metric.color}
-                                fillOpacity={0.2 + (progress * 0.6)} // Opacity based on progress
-                                className="transition-all duration-500"
+                            {/* Progress Ring */}
+                            <motion.circle
+                                cx="100"
+                                cy="100"
+                                r={radius}
+                                fill="none"
+                                stroke={ring.color}
+                                strokeWidth="12"
+                                strokeDasharray={circumference}
+                                initial={{ strokeDashoffset: circumference }}
+                                animate={{ strokeDashoffset: dashoffset }}
+                                transition={{ duration: 1.5, ease: "easeOut", delay: i * 0.2 }}
+                                strokeLinecap="round"
                             />
-
-                            {/* Progress Bar (Thin line at outer edge) */}
-                            <path
-                                d={describeArc(150, 150, activeOuterRadius - 4, activeOuterRadius, startAngle, startAngle + (86 * progress))}
-                                fill={metric.color}
-                            />
-
-                            {/* Icon */}
-                            <foreignObject x={iconPos.x - 12} y={iconPos.y - 12} width="24" height="24" className="pointer-events-none">
-                                <metric.icon className="w-6 h-6 text-white drop-shadow-md" />
-                            </foreignObject>
                         </g>
                     );
                 })}
-
-                {/* Center Info */}
-                <foreignObject x="100" y="100" width="100" height="100">
-                    <div className="w-full h-full flex flex-col items-center justify-center text-center">
-                        <AnimatePresence mode="wait">
-                            {hoveredMetric ? (
-                                <motion.div
-                                    key={hoveredMetric}
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.8 }}
-                                    className="flex flex-col items-center"
-                                >
-                                    <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold mb-1">
-                                        {metrics.find(m => m.id === hoveredMetric)?.label}
-                                    </div>
-                                    <div className="text-2xl font-black text-white" style={{ color: metrics.find(m => m.id === hoveredMetric)?.color }}>
-                                        {metrics.find(m => m.id === hoveredMetric)?.value}
-                                    </div>
-                                    <div className="text-[10px] text-white/50">
-                                        / {metrics.find(m => m.id === hoveredMetric)?.max}
-                                    </div>
-                                </motion.div>
-                            ) : (
-                                <motion.div
-                                    key="default"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    className="flex flex-col items-center"
-                                >
-                                    <div className="text-xs text-muted-foreground uppercase tracking-widest font-bold">Daily</div>
-                                    <div className="text-xl font-black text-white">Stats</div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-                </foreignObject>
             </svg>
+            {/* Center Icons */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <div className="grid grid-cols-2 gap-2 opacity-80">
+                    {rings.map(r => (
+                        <r.icon key={r.id} className="w-5 h-5" style={{ color: r.color }} />
+                    ))}
+                </div>
+            </div>
         </div>
     );
 };
@@ -394,7 +306,7 @@ export function ReportsDashboard() {
                 >
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
                     <h3 className="text-xl font-bold mb-6">Today's Activity</h3>
-                    <GTADial data={todayLog} />
+                    <ActivityRings data={todayLog} />
                     <div className="grid grid-cols-4 gap-4 mt-8 w-full">
                         {[
                             { label: "Steps", val: todayLog.steps, color: "text-cyan-400" },

@@ -36,12 +36,10 @@ export function RadialNavigation() {
     const activeItem = navItems.find((item) => item.href === pathname) || navItems[0];
     const ActiveIcon = activeItem.icon;
 
-    // Split items into two rings
-    const innerRingItems = navItems.slice(0, 4); // First 4 items
-    const outerRingItems = navItems.slice(4);    // Remaining items
-
-    const innerRadius = 90;
-    const outerRadius = 150;
+    // Single Ring Configuration
+    const radius = 140; // Larger radius for single circle
+    const totalItems = navItems.length;
+    const angleStep = 360 / totalItems;
 
     return (
         <>
@@ -100,12 +98,13 @@ export function RadialNavigation() {
                                 </span>
                             </motion.div>
 
-                            {/* Inner Ring Items */}
-                            {innerRingItems.map((item, index) => {
-                                const angle = (index * (360 / innerRingItems.length)) - 90;
+                            {/* Single Ring Items */}
+                            {navItems.map((item, index) => {
+                                // Start from top (-90 degrees)
+                                const angle = (index * angleStep) - 90;
                                 const radian = (angle * Math.PI) / 180;
-                                const x = Math.cos(radian) * innerRadius;
-                                const y = Math.sin(radian) * innerRadius;
+                                const x = Math.cos(radian) * radius;
+                                const y = Math.sin(radian) * radius;
                                 const isActive = pathname === item.href;
                                 const Icon = item.icon;
 
@@ -115,7 +114,7 @@ export function RadialNavigation() {
                                         initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
                                         animate={{ x, y, opacity: 1, scale: 1 }}
                                         exit={{ x: 0, y: 0, opacity: 0, scale: 0 }}
-                                        transition={{ delay: index * 0.05 }}
+                                        transition={{ delay: index * 0.03, type: "spring", stiffness: 200, damping: 20 }}
                                         className="absolute z-20"
                                     >
                                         <Link
@@ -125,52 +124,17 @@ export function RadialNavigation() {
                                                 setIsOpen(false);
                                             }}
                                             className={cn(
-                                                "flex flex-col items-center justify-center w-14 h-14 rounded-full border transition-all duration-200",
+                                                "flex flex-col items-center justify-center w-16 h-16 rounded-full border transition-all duration-200 group relative overflow-hidden",
                                                 isActive
                                                     ? "bg-primary text-white border-primary shadow-lg scale-110"
-                                                    : "bg-card/90 text-muted-foreground border-white/10 hover:bg-white/10 hover:text-white"
+                                                    : "bg-card/90 text-muted-foreground border-white/10 hover:bg-white/10 hover:text-white hover:border-white/30"
                                             )}
                                         >
-                                            <Icon className="w-5 h-5 mb-0.5" />
-                                            <span className="text-[8px] font-bold">{item.name}</span>
-                                        </Link>
-                                    </motion.div>
-                                );
-                            })}
+                                            {/* Hover Glow Effect */}
+                                            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                            {/* Outer Ring Items */}
-                            {outerRingItems.map((item, index) => {
-                                const angle = (index * (360 / outerRingItems.length)) - 90 + (360 / outerRingItems.length / 2); // Offset slightly
-                                const radian = (angle * Math.PI) / 180;
-                                const x = Math.cos(radian) * outerRadius;
-                                const y = Math.sin(radian) * outerRadius;
-                                const isActive = pathname === item.href;
-                                const Icon = item.icon;
-
-                                return (
-                                    <motion.div
-                                        key={item.name}
-                                        initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
-                                        animate={{ x, y, opacity: 1, scale: 1 }}
-                                        exit={{ x: 0, y: 0, opacity: 0, scale: 0 }}
-                                        transition={{ delay: 0.2 + index * 0.05 }}
-                                        className="absolute z-10"
-                                    >
-                                        <Link
-                                            href={item.href}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setIsOpen(false);
-                                            }}
-                                            className={cn(
-                                                "flex flex-col items-center justify-center w-16 h-16 rounded-full border transition-all duration-200",
-                                                isActive
-                                                    ? "bg-primary text-white border-primary shadow-lg scale-110"
-                                                    : "bg-card/80 text-muted-foreground border-white/10 hover:bg-white/10 hover:text-white"
-                                            )}
-                                        >
-                                            <Icon className="w-6 h-6 mb-0.5" />
-                                            <span className="text-[8px] font-bold">{item.name}</span>
+                                            <Icon className="w-6 h-6 mb-0.5 relative z-10" />
+                                            <span className="text-[8px] font-bold relative z-10">{item.name}</span>
                                         </Link>
                                     </motion.div>
                                 );
