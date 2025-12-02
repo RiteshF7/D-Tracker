@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 
 export function Hero() {
@@ -10,9 +11,11 @@ export function Hero() {
 
     const { user } = useAuth();
 
-    if (user) {
-        router.push("/daily-tasks");
-    }
+    useEffect(() => {
+        if (user) {
+            router.push("/daily-tasks");
+        }
+    }, [user, router]);
 
     return (
         <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">

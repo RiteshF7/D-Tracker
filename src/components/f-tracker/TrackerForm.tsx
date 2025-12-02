@@ -39,7 +39,22 @@ export function TrackerForm() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const today = new Date().toISOString().split('T')[0];
+
+        // Save daily snapshot
         localStorage.setItem(`d-tracker-fitness-${today}`, JSON.stringify({ ...data, date: today }));
+
+        // Update history
+        const history = JSON.parse(localStorage.getItem("d-tracker-fitness-history") || "[]");
+        const existingIndex = history.findIndex((h: any) => h.date === today);
+
+        if (existingIndex >= 0) {
+            history[existingIndex] = { ...data, date: today };
+        } else {
+            history.push({ ...data, date: today });
+        }
+
+        localStorage.setItem("d-tracker-fitness-history", JSON.stringify(history));
+
         setSaved(true);
         setTimeout(() => setSaved(false), 2000);
     };
