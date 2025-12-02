@@ -98,34 +98,19 @@ export function ExerciseLibrary() {
                         {/* Filter Bar */}
                         <div className="flex flex-col sm:flex-row gap-4">
                             {/* Muscle Group Scroll */}
-                            <div className="flex-1 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
-                                <div className="flex gap-2">
-                                    <button
-                                        onClick={() => setSelectedMuscle("All")}
-                                        className={cn(
-                                            "px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all border",
-                                            selectedMuscle === "All"
-                                                ? "bg-white text-black border-white"
-                                                : "bg-black/40 text-muted-foreground border-white/10 hover:border-white/30"
-                                        )}
-                                    >
-                                        All Muscles
-                                    </button>
+                            {/* Muscle Group Dropdown */}
+                            <div className="relative min-w-[140px]">
+                                <select
+                                    value={selectedMuscle}
+                                    onChange={(e) => setSelectedMuscle(e.target.value as MuscleGroup | "All")}
+                                    className="w-full appearance-none bg-black/40 border border-white/10 text-white text-xs font-bold rounded-xl px-4 py-3 pr-8 focus:outline-none focus:border-white/30 transition-colors cursor-pointer"
+                                >
+                                    <option value="All">All Muscles</option>
                                     {muscleGroups.map(m => (
-                                        <button
-                                            key={m}
-                                            onClick={() => setSelectedMuscle(m)}
-                                            className={cn(
-                                                "px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all border",
-                                                selectedMuscle === m
-                                                    ? "bg-white text-black border-white"
-                                                    : "bg-black/40 text-muted-foreground border-white/10 hover:border-white/30"
-                                            )}
-                                        >
-                                            {m}
-                                        </button>
+                                        <option key={m} value={m}>{m}</option>
                                     ))}
-                                </div>
+                                </select>
+                                <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground rotate-90 pointer-events-none" />
                             </div>
 
                             {/* Difficulty Dropdown (Simple Toggle for now) */}
