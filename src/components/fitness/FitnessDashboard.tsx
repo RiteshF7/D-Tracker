@@ -1,10 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Dumbbell, Droplets, Moon, Camera, Trophy, Flame } from "lucide-react";
+import { Dumbbell, Droplets, Moon, Camera, Trophy, Flame, Activity } from "lucide-react";
 import Link from "next/link";
 
 const features = [
+    {
+        name: "Exercises",
+        description: "Visual guide & techniques",
+        icon: Activity,
+        href: "/fitness/exercises",
+        color: "bg-emerald-500",
+        delay: 0.05,
+    },
     {
         name: "Workout Logger",
         description: "Track sets, reps, and weights",
