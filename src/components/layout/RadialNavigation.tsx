@@ -36,8 +36,12 @@ export function RadialNavigation() {
     const activeItem = navItems.find((item) => item.href === pathname) || navItems[0];
     const ActiveIcon = activeItem.icon;
 
-    // Radius of the circle
-    const radius = 120;
+    // Split items into two rings
+    const innerRingItems = navItems.slice(0, 4); // First 4 items
+    const outerRingItems = navItems.slice(4);    // Remaining items
+
+    const innerRadius = 90;
+    const outerRadius = 150;
 
     return (
         <>
@@ -78,17 +82,17 @@ export function RadialNavigation() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-40 bg-black/60 backdrop-blur-md flex items-center justify-center"
+                        className="fixed inset-0 z-40 bg-black/80 backdrop-blur-md flex items-center justify-center"
                         onClick={() => setIsOpen(false)}
                     >
-                        <div className="relative w-[350px] h-[350px] flex items-center justify-center">
+                        <div className="relative w-[400px] h-[400px] flex items-center justify-center">
                             {/* Center Circle (Current Page) */}
                             <motion.div
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
                                 exit={{ scale: 0 }}
                                 transition={{ type: "spring", damping: 20, stiffness: 300 }}
-                                className="absolute z-20 w-24 h-24 rounded-full bg-card border-2 border-primary/50 shadow-2xl flex flex-col items-center justify-center gap-1"
+                                className="absolute z-30 w-24 h-24 rounded-full bg-card border-2 border-primary/50 shadow-2xl flex flex-col items-center justify-center gap-1"
                             >
                                 <ActiveIcon className={cn("w-8 h-8", activeItem.color)} />
                                 <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
@@ -96,13 +100,12 @@ export function RadialNavigation() {
                                 </span>
                             </motion.div>
 
-                            {/* Outer Ring Items */}
-                            {navItems.map((item, index) => {
-                                const angle = (index * (360 / navItems.length)) - 90; // Start from top (-90deg)
+                            {/* Inner Ring Items */}
+                            {innerRingItems.map((item, index) => {
+                                const angle = (index * (360 / innerRingItems.length)) - 90;
                                 const radian = (angle * Math.PI) / 180;
-                                const x = Math.cos(radian) * radius;
-                                const y = Math.sin(radian) * radius;
-
+                                const x = Math.cos(radian) * innerRadius;
+                                const y = Math.sin(radian) * innerRadius;
                                 const isActive = pathname === item.href;
                                 const Icon = item.icon;
 
@@ -112,12 +115,45 @@ export function RadialNavigation() {
                                         initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
                                         animate={{ x, y, opacity: 1, scale: 1 }}
                                         exit={{ x: 0, y: 0, opacity: 0, scale: 0 }}
-                                        transition={{
-                                            type: "spring",
-                                            damping: 15,
-                                            stiffness: 200,
-                                            delay: index * 0.05
-                                        }}
+                                        transition={{ delay: index * 0.05 }}
+                                        className="absolute z-20"
+                                    >
+                                        <Link
+                                            href={item.href}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setIsOpen(false);
+                                            }}
+                                            className={cn(
+                                                "flex flex-col items-center justify-center w-14 h-14 rounded-full border transition-all duration-200",
+                                                isActive
+                                                    ? "bg-primary text-white border-primary shadow-lg scale-110"
+                                                    : "bg-card/90 text-muted-foreground border-white/10 hover:bg-white/10 hover:text-white"
+                                            )}
+                                        >
+                                            <Icon className="w-5 h-5 mb-0.5" />
+                                            <span className="text-[8px] font-bold">{item.name}</span>
+                                        </Link>
+                                    </motion.div>
+                                );
+                            })}
+
+                            {/* Outer Ring Items */}
+                            {outerRingItems.map((item, index) => {
+                                const angle = (index * (360 / outerRingItems.length)) - 90 + (360 / outerRingItems.length / 2); // Offset slightly
+                                const radian = (angle * Math.PI) / 180;
+                                const x = Math.cos(radian) * outerRadius;
+                                const y = Math.sin(radian) * outerRadius;
+                                const isActive = pathname === item.href;
+                                const Icon = item.icon;
+
+                                return (
+                                    <motion.div
+                                        key={item.name}
+                                        initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
+                                        animate={{ x, y, opacity: 1, scale: 1 }}
+                                        exit={{ x: 0, y: 0, opacity: 0, scale: 0 }}
+                                        transition={{ delay: 0.2 + index * 0.05 }}
                                         className="absolute z-10"
                                     >
                                         <Link
@@ -129,8 +165,8 @@ export function RadialNavigation() {
                                             className={cn(
                                                 "flex flex-col items-center justify-center w-16 h-16 rounded-full border transition-all duration-200",
                                                 isActive
-                                                    ? "bg-primary text-white border-primary shadow-lg shadow-primary/40 scale-110"
-                                                    : "bg-card/90 text-muted-foreground border-white/10 hover:bg-white/10 hover:text-white hover:scale-105 hover:border-white/30"
+                                                    ? "bg-primary text-white border-primary shadow-lg scale-110"
+                                                    : "bg-card/80 text-muted-foreground border-white/10 hover:bg-white/10 hover:text-white"
                                             )}
                                         >
                                             <Icon className="w-6 h-6 mb-0.5" />
