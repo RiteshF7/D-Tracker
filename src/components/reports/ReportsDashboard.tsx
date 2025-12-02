@@ -39,26 +39,37 @@ export function ReportsDashboard() {
 
         // Fetch real data from localStorage
         const sleepLogs = JSON.parse(localStorage.getItem("d-tracker-sleep") || "[]");
-        const waterLogs = JSON.parse(localStorage.getItem("d-tracker-water-history") || "[]"); // Assuming history is stored
-        // Note: WaterTracker currently only stores "today", so we might need to mock history or update WaterTracker. 
-        // For now, let's use the mock data for water but real data for sleep as requested.
+        const waterLogs = JSON.parse(localStorage.getItem("d-tracker-water-history") || "[]");
+        const fitnessLogs = []; // We need to fetch daily fitness logs too if we want weight/steps/calories history
+
+        // Helper to find log by date
+        const findLog = (logs: any[], dateStr: string, key: string) => {
+            const log = logs.find((l: any) => {
+                // Handle different date formats if necessary, but assuming toDateString() consistency
+                return l.date === dateStr || new Date(l.date).toDateString() === new Date(dateStr).toDateString();
+            });
+            return log ? log[key] : 0;
+        };
 
         return Array.from({ length: days }, (_, i) => {
             const date = addDays(startDate, i);
-            const dateStr = date.toLocaleDateString();
+            const dateStr = date.toDateString(); // Use toDateString for consistency with WaterTracker
 
-            // Find sleep log for this date
-            const sleepLog = sleepLogs.find((log: any) => log.date === dateStr);
-            const sleepVal = sleepLog ? sleepLog.hours : 0;
+            const sleepVal = findLog(sleepLogs, dateStr, "hours");
+            const waterVal = findLog(waterLogs, dateStr, "count");
 
-            // Mock other data mixed with some randomness for demo if no real data
+            // For demo purposes, if no real data exists, we show 0 to encourage logging, 
+            // OR we could keep the mock data fallback if the user prefers a populated chart initially.
+            // Let's use a mix: Real data if available, otherwise 0 for clear "missing data" feedback.
+
             return {
                 name: format(date, days > 30 ? "MMM d" : "EEE"),
                 fullDate: format(date, "MMM d, yyyy"),
-                weight: Number((75 + Math.sin(i * 0.5) * 2 + Math.random()).toFixed(1)),
-                steps: Math.floor(8000 + Math.random() * 5000 + (i % 7 === 0 ? 2000 : 0)),
-                calories: Math.floor(2000 + Math.random() * 500),
-                sleep: sleepVal || Number((6 + Math.random() * 3).toFixed(1)), // Fallback to mock if 0 to show *something* on empty state
+                weight: Number((75 + Math.sin(i * 0.5) * 2).toFixed(1)), // Mock weight for now as we don't have history for it yet
+                steps: Math.floor(8000 + Math.random() * 2000), // Mock steps
+                calories: Math.floor(2000 + Math.random() * 500), // Mock calories
+                sleep: sleepVal,
+                water: waterVal // Add water to chart data
             };
         });
     }, [timeRange, dateOffset]);

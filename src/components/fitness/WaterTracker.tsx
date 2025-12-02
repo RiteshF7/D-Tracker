@@ -16,6 +16,14 @@ export function WaterTracker() {
             if (date === today) {
                 setGlasses(count);
             } else {
+                // It's a new day, archive yesterday's data if not already archived
+                const history = JSON.parse(localStorage.getItem("d-tracker-water-history") || "[]");
+                const alreadyArchived = history.some((h: any) => h.date === date);
+
+                if (!alreadyArchived && count > 0) {
+                    history.push({ date, count });
+                    localStorage.setItem("d-tracker-water-history", JSON.stringify(history));
+                }
                 setGlasses(0);
             }
         }
@@ -24,6 +32,17 @@ export function WaterTracker() {
     useEffect(() => {
         const today = new Date().toDateString();
         localStorage.setItem("d-tracker-water", JSON.stringify({ date: today, count: glasses }));
+
+        // Also update history for today in real-time for reports
+        const history = JSON.parse(localStorage.getItem("d-tracker-water-history") || "[]");
+        const todayIndex = history.findIndex((h: any) => h.date === today);
+
+        if (todayIndex >= 0) {
+            history[todayIndex].count = glasses;
+        } else {
+            history.push({ date: today, count: glasses });
+        }
+        localStorage.setItem("d-tracker-water-history", JSON.stringify(history));
     }, [glasses]);
 
     const progress = Math.min((glasses / goal) * 100, 100);

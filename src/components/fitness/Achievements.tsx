@@ -1,9 +1,15 @@
 "use client";
 
-import { Trophy, Flame, Target, Zap, Medal } from "lucide-react";
+import { Trophy, Flame, Target, Zap, Medal, Activity } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const achievements = [
+    // --- Daily Streaks (New) ---
+    { id: "daily-burn-3", name: "Calorie Crusher", description: "Burn > 2000kcal for 3 days", icon: Flame, color: "text-orange-500", bg: "bg-orange-500/20", unlocked: false },
+    { id: "daily-burn-7", name: "Inferno", description: "Burn > 2000kcal for 7 days", icon: Flame, color: "text-red-500", bg: "bg-red-500/20", unlocked: false },
+    { id: "step-master-3", name: "Walker", description: "10k Steps for 3 days", icon: Activity, color: "text-cyan-400", bg: "bg-cyan-400/20", unlocked: false },
+    { id: "step-master-7", name: "Marathoner", description: "10k Steps for 7 days", icon: Activity, color: "text-blue-500", bg: "bg-blue-500/20", unlocked: false },
+
     // --- Consistency & Streaks ---
     { id: "early-bird", name: "Early Bird", description: "Log a workout before 8 AM", icon: Zap, color: "text-yellow-400", bg: "bg-yellow-400/20", unlocked: true },
     { id: "night-owl", name: "Night Owl", description: "Log a workout after 10 PM", icon: MoonIcon, color: "text-indigo-400", bg: "bg-indigo-400/20", unlocked: false },
@@ -135,15 +141,21 @@ function MoonIcon(props: any) {
 }
 
 export function Achievements() {
+    const unlockedCount = achievements.filter(a => a.unlocked).length;
+    const totalCount = achievements.length;
+
     return (
         <div className="space-y-6">
-            <div className="glass-card p-6 rounded-3xl flex items-center justify-between">
+            <div className="glass-card p-6 rounded-3xl flex items-center justify-between bg-gradient-to-br from-yellow-500/10 to-transparent border-yellow-500/20">
                 <div>
-                    <h2 className="text-2xl font-bold">Level 3</h2>
-                    <p className="text-muted-foreground text-sm">250 XP to next level</p>
+                    <h2 className="text-2xl font-bold text-yellow-500">Level {Math.floor(unlockedCount / 5) + 1}</h2>
+                    <p className="text-muted-foreground text-sm mb-2">{250 - (unlockedCount * 50 % 250)} XP to next level</p>
+                    <div className="text-xs font-bold px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-500 w-fit">
+                        {unlockedCount} / {totalCount} Unlocked
+                    </div>
                 </div>
-                <div className="p-4 rounded-full bg-yellow-500/20 text-yellow-500">
-                    <Trophy className="w-8 h-8" />
+                <div className="p-4 rounded-full bg-yellow-500/20 text-yellow-500 shadow-lg shadow-yellow-500/20">
+                    <Trophy className="w-10 h-10" />
                 </div>
             </div>
 
