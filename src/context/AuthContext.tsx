@@ -1,8 +1,8 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { User, signOut, onAuthStateChanged } from "firebase/auth";
-import { auth, signInWithGoogle } from "@/lib/firebase";
+import { User, onAuthStateChanged } from "firebase/auth";
+import { auth, signInWithGoogle, logout as firebaseLogout } from "@/lib/firebase";
 
 interface AuthContextType {
     user: User | null;
@@ -19,9 +19,30 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export function AuthContextProvider({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true);
+    // Guest Mode: Always provide a mock user
+    const [user, setUser] = useState<User | null>({
+        uid: "guest-user",
+        displayName: "Guest User",
+        email: "guest@dtracker.app",
+        photoURL: null,
+        emailVerified: true,
+        isAnonymous: true,
+        metadata: {},
+        providerData: [],
+        refreshToken: "",
+        tenantId: null,
+        delete: async () => { },
+        getIdToken: async () => "",
+        getIdTokenResult: async () => ({} as any),
+        reload: async () => { },
+        toJSON: () => ({}),
+        phoneNumber: null,
+    } as unknown as User);
 
+    const [loading, setLoading] = useState(false);
+
+    // Disabled Firebase Auth Listener for Guest Mode
+    /*
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setUser(user);
@@ -30,17 +51,16 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 
         return () => unsubscribe();
     }, []);
+    */
 
     const handleSignInWithGoogle = async () => {
-        await signInWithGoogle();
+        // await signInWithGoogle();
+        console.log("Guest Mode: Sign in disabled");
     };
 
     const logout = async () => {
-        try {
-            await signOut(auth);
-        } catch (error) {
-            console.error("Error signing out", error);
-        }
+        // await firebaseLogout();
+        console.log("Guest Mode: Logout disabled");
     };
 
     return (

@@ -1,24 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Lock } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { seedGuestData } from "@/lib/seedData";
 import { useAuth } from "@/context/AuthContext";
 
 export function Hero() {
     const router = useRouter();
 
-    const { signInWithGoogle, user } = useAuth();
-
-    const handleGuestAccess = () => {
-        seedGuestData();
-        router.push("/daily-tasks");
-    };
-
-    const handleLogin = async () => {
-        await signInWithGoogle();
-    };
+    const { user } = useAuth();
 
     if (user) {
         router.push("/daily-tasks");
@@ -78,19 +68,10 @@ export function Hero() {
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={handleGuestAccess}
+                        onClick={() => router.push("/daily-tasks")}
                         className="px-8 py-4 bg-primary text-white rounded-full font-bold text-lg flex items-center gap-2 shadow-[0_0_40px_-10px_rgba(139,92,246,0.5)] hover:shadow-[0_0_60px_-10px_rgba(139,92,246,0.6)] transition-all"
                     >
-                        Try as Guest <ArrowRight className="w-5 h-5" />
-                    </motion.button>
-
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={handleLogin}
-                        className="px-8 py-4 glass rounded-full font-bold text-lg flex items-center gap-2 hover:bg-white/10 transition-all text-white"
-                    >
-                        Login <Lock className="w-4 h-4" />
+                        Enter App <ArrowRight className="w-5 h-5" />
                     </motion.button>
                 </div>
             </motion.div>
