@@ -6,11 +6,11 @@ import { Check, Palette } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const themes = [
-    { id: "obsidian", name: "Obsidian", color: "bg-slate-900", accent: "bg-purple-500" },
-    { id: "ocean", name: "Ocean", color: "bg-teal-950", accent: "bg-teal-400" },
-    { id: "sapphire", name: "Sapphire", color: "bg-slate-950", accent: "bg-blue-500" },
-    { id: "crimson", name: "Crimson", color: "bg-red-950", accent: "bg-red-400" },
-    { id: "emerald", name: "Emerald", color: "bg-green-950", accent: "bg-green-400" },
+    { id: "obsidian", name: "Obsidian", color: "bg-[#0B0F19]", accent: "bg-violet-500" },
+    { id: "ocean", name: "Ocean", color: "bg-[#022C22]", accent: "bg-teal-400" },
+    { id: "sapphire", name: "Sapphire", color: "bg-[#020617]", accent: "bg-blue-500" },
+    { id: "crimson", name: "Crimson", color: "bg-[#2A0A0A]", accent: "bg-red-400" },
+    { id: "emerald", name: "Emerald", color: "bg-[#022C22]", accent: "bg-green-400" },
 ];
 
 export function ThemeSwitcher() {

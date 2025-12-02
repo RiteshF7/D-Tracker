@@ -13,7 +13,7 @@ export function AnimatedBackground() {
     if (!mounted) return null;
 
     return (
-        <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none">
+        <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none hidden md:block">
             {/* Primary Blob */}
             <motion.div
                 animate={{
