@@ -49,7 +49,7 @@ const navItems = [
         name: "Profile",
         href: "/profile",
         icon: UserIcon,
-        color: "text-blue-400",
+        color: "text-[#38bdf8]",
     },
 ];
 
@@ -57,8 +57,8 @@ export function Navigation() {
     const pathname = usePathname();
 
     return (
-        <div className="fixed bottom-6 left-4 right-4 z-50 flex justify-center">
-            <nav className="glass-nav rounded-2xl px-2 py-2 shadow-2xl shadow-black/50 w-full max-w-md border border-white/10">
+        <div className="fixed bottom-6 left-2 right-2 sm:left-4 sm:right-4 z-50 flex justify-center">
+            <nav className="glass-nav rounded-2xl px-1 py-2 sm:px-2 shadow-2xl shadow-black/50 w-full max-w-lg border border-white/10">
                 <ul className="flex items-center justify-between">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href;
@@ -70,7 +70,7 @@ export function Navigation() {
                                 <Link
                                     href={item.href}
                                     className={cn(
-                                        "flex flex-col items-center justify-center w-14 h-14 rounded-xl transition-all duration-300 relative z-10",
+                                        "flex flex-col items-center justify-center w-10 h-10 sm:w-14 sm:h-14 rounded-xl transition-all duration-300 relative z-10",
                                         isActive ? "text-black" : "text-muted-foreground hover:text-white"
                                     )}
                                 >
