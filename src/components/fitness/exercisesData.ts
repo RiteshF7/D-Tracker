@@ -246,5 +246,34 @@ export const exercises: Exercise[] = [
         difficulty: "Beginner",
         image: "https://images.unsplash.com/photo-1544367563-12123d8965cd?q=80&w=1000&auto=format&fit=crop&illustration=true",
         steps: ["Kneel on floor, toes together.", "Sit back on heels.", "Reach arms forward on floor.", "Rest forehead down."]
+    },
+
+    // --- New Additions ---
+    {
+        id: "leg-1",
+        name: "Lunges",
+        category: "Strength Build",
+        muscleGroup: "Legs",
+        difficulty: "Beginner",
+        image: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=1000&auto=format&fit=crop&illustration=true",
+        steps: ["Stand tall.", "Step forward with one leg.", "Lower hips until both knees are bent at 90 degrees.", "Push back to start."]
+    },
+    {
+        id: "core-1",
+        name: "Sit-ups",
+        category: "Calisthenics",
+        muscleGroup: "Core",
+        difficulty: "Beginner",
+        image: "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?q=80&w=1000&auto=format&fit=crop&illustration=true",
+        steps: ["Lie on back, knees bent.", "Cross arms over chest.", "Lift upper body towards knees.", "Lower back down slowly."]
+    },
+    {
+        id: "leg-2",
+        name: "Calf Raises",
+        category: "Strength Build",
+        muscleGroup: "Legs",
+        difficulty: "Beginner",
+        image: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=1000&auto=format&fit=crop&illustration=true",
+        steps: ["Stand tall.", "Lift heels off the ground.", "Hold at the top.", "Lower heels back down."]
     }
 ];
