@@ -213,7 +213,7 @@ export function RadialNavigation() {
 
                             {/* Icons Layer (Rendered on top of SVG) */}
                             {navItems.map((item, index) => {
-                                const angle = (index * angleStep) - 90;
+                                const angle = (index * angleStep) + (angleStep / 2) - 90;
                                 const radian = (angle * Math.PI) / 180;
                                 const x = Math.cos(radian) * ICON_RADIUS;
                                 const y = Math.sin(radian) * ICON_RADIUS;
