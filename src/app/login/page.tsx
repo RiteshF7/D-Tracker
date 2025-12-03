@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 
 export default function LoginPage() {
-    const { signInWithGoogle, user } = useAuth();
+    const { signInWithGoogle, continueAsGuest, user } = useAuth();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -58,6 +58,18 @@ export default function LoginPage() {
                             <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5" />
                         )}
                         Sign in with Google
+                    </button>
+
+                    <button
+                        onClick={async () => {
+                            setIsLoading(true);
+                            await continueAsGuest();
+                            router.push("/daily-tasks");
+                        }}
+                        disabled={isLoading}
+                        className="w-full py-4 bg-white/10 text-white hover:bg-white/20 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all disabled:opacity-70"
+                    >
+                        Continue as Guest
                     </button>
 
                     <p className="text-xs text-muted-foreground">

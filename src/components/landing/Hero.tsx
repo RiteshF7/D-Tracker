@@ -9,7 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 export function Hero() {
     const router = useRouter();
 
-    const { user } = useAuth();
+    const { user, continueAsGuest } = useAuth();
 
     useEffect(() => {
         if (user) {
@@ -75,6 +75,18 @@ export function Hero() {
                         className="px-8 py-4 bg-primary text-white rounded-full font-bold text-lg flex items-center gap-2 shadow-[0_0_40px_-10px_rgba(139,92,246,0.5)] hover:shadow-[0_0_60px_-10px_rgba(139,92,246,0.6)] transition-all"
                     >
                         Get Started <ArrowRight className="w-5 h-5" />
+                    </motion.button>
+
+                    <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={async () => {
+                            await continueAsGuest();
+                            router.push("/daily-tasks");
+                        }}
+                        className="px-8 py-4 bg-white/10 text-white rounded-full font-bold text-lg flex items-center gap-2 hover:bg-white/20 transition-all backdrop-blur-sm"
+                    >
+                        Guest Mode
                     </motion.button>
                 </div>
             </motion.div>

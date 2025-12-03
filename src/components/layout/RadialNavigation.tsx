@@ -52,6 +52,8 @@ export function RadialNavigation() {
         if (item.action === "logout") {
             await logout();
             router.push("/");
+        } else if (item.href) {
+            router.push(item.href);
         }
         setIsOpen(false);
     };
