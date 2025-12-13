@@ -1,5 +1,5 @@
 import { initializeApp, getApps, getApp, type FirebaseOptions } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -12,7 +12,6 @@ const firebaseConfig: FirebaseOptions = {
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
 if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "mock-key") {
@@ -41,6 +40,26 @@ export const logout = async () => {
         console.error("Error signing out: ", error);
     }
 };
+
+export const signUpWithEmail = async (email: string, pass: string) => {
+    try {
+        const result = await createUserWithEmailAndPassword(auth, email, pass);
+        return result.user;
+    } catch (error) {
+        console.error("Error signing up: ", error);
+        throw error;
+    }
+}
+
+export const signInWithEmail = async (email: string, pass: string) => {
+    try {
+        const result = await signInWithEmailAndPassword(auth, email, pass);
+        return result.user;
+    } catch (error) {
+        console.error("Error signing in: ", error);
+        throw error;
+    }
+}
 
 export const addWaitlistUser = async (name: string, email: string) => {
     try {

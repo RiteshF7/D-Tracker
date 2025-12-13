@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
-import { auth, signInWithGoogle, logout as firebaseLogout } from "@/lib/firebase";
+import { auth, signInWithGoogle, logout as firebaseLogout, signInWithEmail, signUpWithEmail } from "@/lib/firebase";
 
 interface AuthContextType {
     user: User | null;
@@ -10,6 +10,8 @@ interface AuthContextType {
     signInWithGoogle: () => Promise<void>;
     continueAsGuest: () => Promise<void>;
     logout: () => Promise<void>;
+    signUp: (email: string, pass: string) => Promise<void>;
+    signIn: (email: string, pass: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -18,6 +20,8 @@ const AuthContext = createContext<AuthContextType>({
     signInWithGoogle: async () => { },
     continueAsGuest: async () => { },
     logout: async () => { },
+    signUp: async () => { },
+    signIn: async () => { },
 });
 
 export function AuthContextProvider({ children }: { children: React.ReactNode }) {
@@ -29,10 +33,6 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
             if (user) {
                 setUser(user);
             } else {
-                // Check if guest mode is active in local state/storage if we wanted persistence, 
-                // but for now we'll just let it be null unless explicitly set.
-                // Actually, if we want guest persistence across reloads without Firebase, we'd need localStorage.
-                // For simplicity, let's just rely on state for this session or check localStorage.
                 const isGuest = localStorage.getItem("isGuest");
                 if (isGuest === "true") {
                     setGuestUser();
@@ -83,8 +83,26 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
         setUser(null);
     };
 
+    const handleSignUp = async (email: string, pass: string) => {
+        await signUpWithEmail(email, pass);
+        localStorage.removeItem("isGuest");
+    };
+
+    const handleSignIn = async (email: string, pass: string) => {
+        await signInWithEmail(email, pass);
+        localStorage.removeItem("isGuest");
+    };
+
     return (
-        <AuthContext.Provider value={{ user, loading, signInWithGoogle: handleSignInWithGoogle, continueAsGuest, logout }}>
+        <AuthContext.Provider value={{
+            user,
+            loading,
+            signInWithGoogle: handleSignInWithGoogle,
+            continueAsGuest,
+            logout,
+            signUp: handleSignUp,
+            signIn: handleSignIn
+        }}>
             {children}
         </AuthContext.Provider>
     );
