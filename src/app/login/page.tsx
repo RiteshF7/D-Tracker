@@ -3,14 +3,15 @@
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Loader2, AlertCircle } from "lucide-react";
 import { LoginForm } from "@/components/auth/LoginForm";
 
 export default function LoginPage() {
     const { signInWithGoogle, continueAsGuest, user } = useAuth();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     if (user) {
         router.push("/daily-tasks");
@@ -19,11 +20,13 @@ export default function LoginPage() {
 
     const handleLogin = async () => {
         setIsLoading(true);
+        setError(null);
         try {
             await signInWithGoogle();
             router.push("/daily-tasks");
-        } catch (error) {
+        } catch (error: any) {
             console.error("Login failed:", error);
+            setError(error.message || "Failed to sign in with Google");
         } finally {
             setIsLoading(false);
         }
@@ -55,6 +58,19 @@ export default function LoginPage() {
                     </div>
 
                     <div className="w-full space-y-3">
+                        <AnimatePresence mode="wait">
+                            {error && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    className="bg-red-500/10 border border-red-500/20 text-red-500 text-sm p-3 rounded-xl flex items-center gap-2 mb-4"
+                                >
+                                    <AlertCircle className="w-4 h-4 shrink-0" />
+                                    {error}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                         <button
                             onClick={handleLogin}
                             disabled={isLoading}
