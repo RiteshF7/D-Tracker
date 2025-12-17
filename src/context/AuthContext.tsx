@@ -30,10 +30,13 @@ export function AuthContextProvider({ children }: { children: React.ReactNode })
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
+            console.log("AuthContext: onAuthStateChanged triggered", { user: user?.email, uid: user?.uid });
             if (user) {
+                console.log("AuthContext: Setting user state", user.email);
                 setUser(user);
             } else {
                 const isGuest = localStorage.getItem("isGuest");
+                console.log("AuthContext: No user. isGuest?", isGuest);
                 if (isGuest === "true") {
                     setGuestUser();
                 } else {

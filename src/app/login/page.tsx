@@ -11,6 +11,7 @@ export default function LoginPage() {
     const { signInWithGoogle, continueAsGuest, user } = useAuth();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     if (user) {
@@ -22,8 +23,12 @@ export default function LoginPage() {
         setIsLoading(true);
         setError(null);
         try {
+            console.log("LoginPage: Starting signInWithGoogle");
             await signInWithGoogle();
-            router.push("/daily-tasks");
+            console.log("LoginPage: signInWithGoogle success. Waiting for AuthContext update...");
+            setIsSuccess(true);
+            // We do NOT manually redirect here. We wait for AuthContext to see the user.
+            // The top-level `if (user)` check will handle the redirect.
         } catch (error: any) {
             console.error("Login failed:", error);
             setError(error.message || "Failed to sign in with Google");
@@ -68,6 +73,15 @@ export default function LoginPage() {
                                 >
                                     <AlertCircle className="w-4 h-4 shrink-0" />
                                     {error}
+                                </motion.div>
+                            )}
+                            {isSuccess && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="bg-green-500/10 border border-green-500/20 text-green-500 text-sm p-3 rounded-xl flex items-center gap-2 mb-4"
+                                >
+                                    Login successful! Redirecting...
                                 </motion.div>
                             )}
                         </AnimatePresence>

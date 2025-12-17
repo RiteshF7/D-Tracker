@@ -15,7 +15,9 @@ export default function AppLayout({
     const router = useRouter();
 
     useEffect(() => {
+        console.log("AppLayout: Checking auth", { loading, user: user?.email });
         if (!loading && !user) {
+            console.log("AppLayout: Redirecting to /login");
             router.push("/login");
         }
     }, [user, loading, router]);
