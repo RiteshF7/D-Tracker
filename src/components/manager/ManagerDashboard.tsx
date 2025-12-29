@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 
 
 import { Plus, Trash2, Edit2, Target, Sparkles } from "lucide-react";
