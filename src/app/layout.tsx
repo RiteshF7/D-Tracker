@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AnimatedBackground } from "@/components/layout/AnimatedBackground";
+import { GlobalClickOverlay } from "@/components/layout/GlobalClickOverlay";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -67,6 +68,7 @@ export default function RootLayout({
           <ThemeProvider>
             <AnimatedBackground />
             {children}
+            <GlobalClickOverlay />
           </ThemeProvider>
         </AuthContextProvider>
       </body>

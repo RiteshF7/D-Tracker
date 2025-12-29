@@ -2,7 +2,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2, Edit2, Save, Target } from "lucide-react";
+
+
+import { Plus, Trash2, Edit2, Target, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -32,13 +34,33 @@ export function ManagerDashboard() {
         targetSleep: "",
     });
 
+    const [isAnimationsEnabled, setIsAnimationsEnabled] = useState(true);
+
     useEffect(() => {
         const savedTasks = localStorage.getItem("d-tracker-tasks");
-        if (savedTasks) setTasks(JSON.parse(savedTasks));
+        if (savedTasks) {
+            // eslint-disable-next-line
+            setTasks(JSON.parse(savedTasks));
+        }
 
         const savedGoals = localStorage.getItem("d-tracker-goals");
-        if (savedGoals) setGoals(JSON.parse(savedGoals));
+        if (savedGoals) {
+            // eslint-disable-next-line
+            setGoals(JSON.parse(savedGoals));
+        }
+
+        const savedAnim = localStorage.getItem("d-tracker-animations-enabled");
+        if (savedAnim) {
+            // eslint-disable-next-line
+            setIsAnimationsEnabled(savedAnim === "true");
+        }
     }, []);
+
+    const toggleAnimations = () => {
+        const newValue = !isAnimationsEnabled;
+        setIsAnimationsEnabled(newValue);
+        localStorage.setItem("d-tracker-animations-enabled", String(newValue));
+    };
 
     const saveTasks = (newTasks: Task[]) => {
         setTasks(newTasks);
@@ -56,7 +78,7 @@ export function ManagerDashboard() {
         saveTasks(tasks.filter(t => t.id !== id));
     };
 
-    const handleGoalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleGoalChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         const newGoals = { ...goals, [name]: value };
         setGoals(newGoals);
@@ -139,6 +161,33 @@ export function ManagerDashboard() {
                             />
                         </div>
                     ))}
+                </div>
+            </section>
+
+            {/* App Preferences */}
+            <section className="space-y-4">
+                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                    <Sparkles className="w-5 h-5" />
+                    App Preferences
+                </h2>
+                <div className="glass-card p-6 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <h3 className="font-medium text-lg">Click Animations</h3>
+                        <p className="text-sm text-muted-foreground">Enable particle effects on click</p>
+                    </div>
+                    <button
+                        onClick={toggleAnimations}
+                        className={cn(
+                            "w-14 h-8 rounded-full p-1 transition-colors duration-300 ease-in-out",
+                            isAnimationsEnabled ? "bg-primary" : "bg-white/10"
+                        )}
+                    >
+                        <motion.div
+                            className="w-6 h-6 bg-white rounded-full shadow-sm"
+                            animate={{ x: isAnimationsEnabled ? 24 : 0 }}
+                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                        />
+                    </button>
                 </div>
             </section>
         </div>
